@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 //[System.Serializable]
@@ -12,6 +13,7 @@ public class Dialogue
     public IDictionary<string, string> a;
     public IDictionary<string, string> s;
     public IDictionary<string, string> d;
+    public List<string> endings = new List<string>();
 
     public Dialogue(string name)
     {
@@ -45,14 +47,18 @@ public class Dialogue
         switch (this.name)
         {
             case "Test":
-                MakeOptions("", "Hey it's me, ya boyasdfasdfasdfasdfasdfasdfasdfsafdasfasdfasfasdfasdfasdf", "Wassap", "You pickin a fite?", "Yikes", "K");
+                string[] itemEndings = {"ww", "wa", "ws", "wd", "aw", "aa", "as", "ad", "sw", "sa", "ss", "sd", "dw", "da", "ds", "dd"};
+                endings.AddRange(itemEndings);
+                MakeOptions("", "Hey it's me", "Wassap", "You pickin a fite?", "Yikes", "K");
                 MakeOptions("w", "Nice You pressed w", "I sure did", "What's W", "this is a simulation", "Nope");
                 MakeOptions("a", "Ya pressed a", "Ayyyyy", "A is for aeiou", "aha!", "Sweet home Alabama");
                 MakeOptions("s", "S is my favoritte option too", "Smile", "Sweet", "Sister", "Sadistic");
                 MakeOptions("d", "Haha D is my class grade", "Oof", "Same", "Sounds like a you problem", "Dumbass");
-                break;
+                break;  
 
-        }
+            //Generics (Car)
+            
+        }   
     }
 
 }

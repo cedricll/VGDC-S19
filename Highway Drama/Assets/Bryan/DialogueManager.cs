@@ -59,11 +59,14 @@ public class DialogueManager : MonoBehaviour
 
     public void DisplayNextSentence()
     {
-        if (this.inputs == "End")
+        Debug.Log(dialogue.endings.Contains(inputs));
+        if (dialogue.endings.Contains(inputs))
         {
+            Debug.Log("we're in");
             EndDialogue();
             return;
         }
+        Debug.Log(dialogue.endings);
         string sentence = dialogue.sentences[inputs] + "\n";
 
         StopAllCoroutines();
@@ -90,6 +93,6 @@ public class DialogueManager : MonoBehaviour
 
     void EndDialogue()
     {
-        Debug.Log("end of conversation");
+        dialogueText.text = "K im out";
     }
 }
