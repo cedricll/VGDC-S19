@@ -7,39 +7,85 @@ public class DialogueManager : MonoBehaviour
 {
     public Text nameText;
     public Text dialogueText;
+    public Text wText;
+    public Text aText;
+    public Text sText;
+    public Text dText;
 
-    private Queue<string> sentences;
+    public string inputs = "";
+
+    public Dialogue dialogue;
+
+    public bool takingInput = false;
 
     // Start is called before the first frame update
-    void Start()
+
+    void Update()
     {
-        sentences = new Queue<string>();
+        if (takingInput && Input.GetKey("w")) {
+            this.inputs += "w";
+            takingInput = false;
+            Debug.Log(inputs);
+            DisplayNextSentence();
+        }
+        else if (takingInput && Input.GetKey("a")) {
+            this.inputs += "a";
+            takingInput = false;
+            Debug.Log(inputs);
+            DisplayNextSentence();
+        }
+        else if (takingInput && Input.GetKey("s")) {
+            this.inputs += "s";
+            takingInput = false;
+            Debug.Log(inputs);
+            DisplayNextSentence();
+        }
+        else if (takingInput && Input.GetKey("d")) {
+            this.inputs += "d";
+            takingInput = false;
+            Debug.Log(inputs);
+            DisplayNextSentence();
+        }
     }
 
-    public void StartDialogue (Dialogue dialogue)
+    public void StartDialogue (string name)
     {
+        this.dialogue = new Dialogue(name);
         nameText.text = dialogue.name;
-
-        sentences.Clear();
-
-        foreach (string sentence in dialogue.sentences)
-        {
-            sentences.Enqueue(sentence);
-        }
+        Debug.Log(dialogue.name);
 
         DisplayNextSentence();
     }
 
     public void DisplayNextSentence()
     {
-        if (sentences.Count == 0)
+        if (this.inputs == "End")
         {
             EndDialogue();
             return;
         }
+        string sentence = dialogue.sentences[inputs] + "\n";
 
-        string sentence = sentences.Dequeue();
-        dialogueText.text = sentence;
+        StopAllCoroutines();
+        StartCoroutine(TypeSentence(sentence));
+    }
+
+    IEnumerator TypeSentence(string sentence) {
+        foreach (char letter in sentence.ToCharArray())
+        {
+            dialogueText.text += letter;
+            yield return null;
+        }
+        DisplayChoices();
+        takingInput = true;
+    }
+
+    public void DisplayChoices()
+    {
+        wText.text = dialogue.w[inputs];
+        aText.text = dialogue.a[inputs];
+        sText.text = dialogue.s[inputs];
+        dText.text = dialogue.d[inputs];
     }
 
     void EndDialogue()
