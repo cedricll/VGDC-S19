@@ -18,6 +18,8 @@ public class DialogueManager : MonoBehaviour
 
     public bool takingInput = false;
 
+    public GameObject menu;
+
     // Start is called before the first frame update
 
     void Update()
@@ -25,25 +27,21 @@ public class DialogueManager : MonoBehaviour
         if (takingInput && Input.GetKey("w")) {
             this.inputs += "w";
             takingInput = false;
-            Debug.Log(inputs);
             DisplayNextSentence();
         }
         else if (takingInput && Input.GetKey("a")) {
             this.inputs += "a";
             takingInput = false;
-            Debug.Log(inputs);
             DisplayNextSentence();
         }
         else if (takingInput && Input.GetKey("s")) {
             this.inputs += "s";
             takingInput = false;
-            Debug.Log(inputs);
             DisplayNextSentence();
         }
         else if (takingInput && Input.GetKey("d")) {
             this.inputs += "d";
             takingInput = false;
-            Debug.Log(inputs);
             DisplayNextSentence();
         }
     }
@@ -52,21 +50,16 @@ public class DialogueManager : MonoBehaviour
     {
         this.dialogue = new Dialogue(name);
         nameText.text = dialogue.name;
-        Debug.Log(dialogue.name);
-
         DisplayNextSentence();
     }
 
     public void DisplayNextSentence()
     {
-        Debug.Log(dialogue.endings.Contains(inputs));
         if (dialogue.endings.Contains(inputs))
         {
-            Debug.Log("we're in");
             EndDialogue();
             return;
         }
-        Debug.Log(dialogue.endings);
         string sentence = dialogue.sentences[inputs] + "\n";
 
         StopAllCoroutines();
@@ -94,5 +87,10 @@ public class DialogueManager : MonoBehaviour
     void EndDialogue()
     {
         dialogueText.text = "K im out";
+    }
+
+    public void HideMenu()
+    {
+        menu.SetActive(false);
     }
 }

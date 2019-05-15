@@ -65,6 +65,7 @@
     <Compile Include="Assets\Bryan\Dialogue.cs" />
     <Compile Include="Assets\Bryan\DialogueManager.cs" />
     <Compile Include="Assets\Bryan\DialogueTrigger.cs" />
+    <Compile Include="Assets\Bryan\MainMenu.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>/Users/bryanly/Documents/GitHub/VGDC-S19/Highway Drama/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
