@@ -20,26 +20,52 @@ public class DialogueManager : MonoBehaviour
 
     public GameObject menu;
 
+    public int cycle = 0;
+
     // Start is called before the first frame update
 
     void Update()
     {
-        if (takingInput && Input.GetKey("w")) {
+        if (takingInput && dialogue.w[inputs] != "" && Input.GetKey("w")) {
+            if (cycle > 2)
+            {
+                dialogueText.text = "";
+                cycle = 0;
+            }
+            dialogueText.text += dialogue.w[inputs] + "\n";
             this.inputs += "w";
             takingInput = false;
             DisplayNextSentence();
         }
-        else if (takingInput && Input.GetKey("a")) {
+        else if (takingInput && dialogue.a[inputs] != "" && Input.GetKey("a")) {
+            if (cycle > 2)
+            {
+                dialogueText.text = "";
+                cycle = 0;
+            }
+            dialogueText.text += dialogue.a[inputs] + "\n";
             this.inputs += "a";
             takingInput = false;
             DisplayNextSentence();
         }
-        else if (takingInput && Input.GetKey("s")) {
+        else if (takingInput && dialogue.s[inputs] != "" && Input.GetKey("s")) {
+            if (cycle > 2)
+            {
+                dialogueText.text = "";
+                cycle = 0;
+            }
+            dialogueText.text += dialogue.s[inputs] + "\n";
             this.inputs += "s";
             takingInput = false;
             DisplayNextSentence();
         }
-        else if (takingInput && Input.GetKey("d")) {
+        else if (takingInput && dialogue.d[inputs] != "" && Input.GetKey("d")) {
+            if (cycle > 2)
+            {
+                dialogueText.text = "";
+                cycle = 0;
+            }
+            dialogueText.text += dialogue.d[inputs] + "\n";
             this.inputs += "d";
             takingInput = false;
             DisplayNextSentence();
@@ -55,12 +81,16 @@ public class DialogueManager : MonoBehaviour
 
     public void DisplayNextSentence()
     {
+        Debug.Log(inputs);
+        string sentence = dialogue.sentences[inputs] + "\n";
+
         if (dialogue.endings.Contains(inputs))
         {
-            EndDialogue();
+            EndDialogue(sentence);
             return;
         }
-        string sentence = dialogue.sentences[inputs] + "\n";
+
+        cycle++;
 
         StopAllCoroutines();
         StartCoroutine(TypeSentence(sentence));
@@ -84,9 +114,9 @@ public class DialogueManager : MonoBehaviour
         dText.text = dialogue.d[inputs];
     }
 
-    void EndDialogue()
+    void EndDialogue(string sentence)
     {
-        dialogueText.text = "K im out";
+        dialogueText.text = sentence;
     }
 
     public void HideMenu()
