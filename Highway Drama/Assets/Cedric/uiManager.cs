@@ -7,16 +7,20 @@ public class uiManager : MonoBehaviour
 {
     public Text scoreText;
     int score;
+
+    public GameObject gameover;
+
     // Start is called before the first frame update
     void Start()
     {
+        gameover.SetActive(false);
         score = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        scoreText.text = "Score: " + score;
+
     }
 
     void scoreUpdate()
@@ -34,5 +38,10 @@ public class uiManager : MonoBehaviour
         {
             Time.timeScale = 1;
         }
+    }
+
+    public void GameOver()
+    {
+        gameover.SetActive(true);
     }
 }

@@ -37,6 +37,8 @@ public class steering : MonoBehaviour
         {
             Destroy(gameObject);
             am.carSound.Stop();
+            FindObjectOfType<uiManager>().GameOver();
+            Time.timeScale = 0;
         }
     }
 }
