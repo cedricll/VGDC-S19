@@ -1345,6 +1345,7 @@ MonoBehaviour:
   sText: {fileID: 2041639226}
   dText: {fileID: 1837762294}
   inputs: 
+  dialogue: {fileID: 0}
   takingInput: 0
   menu: {fileID: 1099393688}
   cycle: 0
@@ -1374,6 +1375,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ff79d196fe744e1f99b27532abe63bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogue: {fileID: 0}
 --- !u!1 &1670620951
 GameObject:
   m_ObjectHideFlags: 0

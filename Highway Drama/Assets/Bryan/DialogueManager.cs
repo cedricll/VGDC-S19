@@ -26,6 +26,7 @@ public class DialogueManager : MonoBehaviour
 
     void Update()
     {
+        string temp_inputs = inputs;
         if (takingInput && dialogue.w[inputs] != "" && Input.GetKey("w")) {
             if (cycle > 2)
             {
@@ -33,7 +34,14 @@ public class DialogueManager : MonoBehaviour
                 cycle = 0;
             }
             dialogueText.text += dialogue.w[inputs] + "\n";
-            this.inputs += "w";
+
+            this.inputs = dialogue.wNext[temp_inputs];
+
+            if (temp_inputs == "" || temp_inputs[0] != 'x')
+            {
+                dialogue.w[temp_inputs] = "";
+            }
+
             takingInput = false;
             DisplayNextSentence();
         }
@@ -44,7 +52,14 @@ public class DialogueManager : MonoBehaviour
                 cycle = 0;
             }
             dialogueText.text += dialogue.a[inputs] + "\n";
-            this.inputs += "a";
+
+            this.inputs = dialogue.aNext[temp_inputs];
+
+            if (temp_inputs == "" || temp_inputs[0] != 'x')
+            {
+                dialogue.a[temp_inputs] = "";
+            }
+
             takingInput = false;
             DisplayNextSentence();
         }
@@ -55,7 +70,14 @@ public class DialogueManager : MonoBehaviour
                 cycle = 0;
             }
             dialogueText.text += dialogue.s[inputs] + "\n";
-            this.inputs += "s";
+
+            this.inputs = dialogue.sNext[temp_inputs];
+
+            if (temp_inputs == "" || temp_inputs[0] != 'x')
+            {
+                dialogue.s[temp_inputs] = "";
+            }
+
             takingInput = false;
             DisplayNextSentence();
         }
@@ -66,7 +88,13 @@ public class DialogueManager : MonoBehaviour
                 cycle = 0;
             }
             dialogueText.text += dialogue.d[inputs] + "\n";
-            this.inputs += "d";
+
+            this.inputs = dialogue.dNext[temp_inputs];
+
+            if(temp_inputs == "" || temp_inputs[0] != 'x') {
+                dialogue.d[temp_inputs] = "";
+            }
+
             takingInput = false;
             DisplayNextSentence();
         }
@@ -75,20 +103,17 @@ public class DialogueManager : MonoBehaviour
     public void StartDialogue (string name)
     {
         this.dialogue = new Dialogue(name);
-        nameText.text = dialogue.name;
+        nameText.text = dialogue.name_text;
         DisplayNextSentence();
     }
 
     public void DisplayNextSentence()
     {
-        Debug.Log(inputs);
-        string sentence = dialogue.sentences[inputs] + "\n";
-
-        if (dialogue.endings.Contains(inputs))
-        {
-            EndDialogue(sentence);
-            return;
+        if(dialogue.w[inputs] == "RESET") {
+            this.inputs = "";
         }
+
+        string sentence = dialogue.sentences[inputs] + "\n";
 
         cycle++;
 
@@ -102,8 +127,18 @@ public class DialogueManager : MonoBehaviour
             dialogueText.text += letter;
             yield return null;
         }
-        DisplayChoices();
-        takingInput = true;
+        if (dialogue.w[inputs] == "END")
+        {
+            this.inputs = "";
+            dialogueText.text = "";
+            dialogue.End();
+        } else if (dialogue.w[inputs] == "SKIP"){
+            this.inputs = dialogue.wNext[inputs];
+            DisplayNextSentence();
+        } else {
+            DisplayChoices();
+            takingInput = true;
+        }
     }
 
     public void DisplayChoices()
@@ -114,7 +149,7 @@ public class DialogueManager : MonoBehaviour
         dText.text = dialogue.d[inputs];
     }
 
-    void EndDialogue(string sentence)
+    public void EndDialogue(string sentence)
     {
         dialogueText.text = sentence;
     }
